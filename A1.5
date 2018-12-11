@@ -1,0 +1,42 @@
+SELECT  
+	vehicle_information.make, 
+	vehicle_information.age_band_of_driver AS AGE, 
+	accident_information.first_road_class AS ROAD ,
+	COUNT(vehicle_information) AS ACCIDENTS
+FROM vehicle_information
+	INNER JOIN accident_information ON vehicle_information.accident_index = accident_information.accident_index 
+WHERE 
+	vehicle_information.age_band_of_driver = '26 - 35' 
+	AND 
+	(accident_information.year >= 2010 and accident_information.year <= 2012)
+	AND 
+	accident_information.first_road_class = 'A'
+GROUP BY 
+	vehicle_information.age_band_of_driver, 
+	accident_information.first_road_class , 
+	vehicle_information.make
+HAVING COUNT(vehicle_information) = 
+		(SELECT
+			MAX(ACCIDENTS)
+		FROM (
+			SELECT  
+					vehicle_information.make, 
+					vehicle_information.age_band_of_driver AS AGE, 
+					accident_information.first_road_class AS ROAD ,
+					COUNT(vehicle_information) AS ACCIDENTS
+			FROM vehicle_information
+					INNER JOIN accident_information ON vehicle_information.accident_index = accident_information.accident_index 
+			WHERE 
+					vehicle_information.age_band_of_driver = '26 - 35' 
+					AND 
+					(accident_information.year >= 2010 and accident_information.year <= 2012)
+					AND 
+					accident_information.first_road_class = 'A'
+			GROUP BY 
+					vehicle_information.age_band_of_driver, 
+					accident_information.first_road_class , 
+					vehicle_information.make
+			ORDER BY ACCIDENTS DESC																		
+			)AS make_count
+		)
+	

@@ -1,0 +1,29 @@
+CREATE TABLE Accident_Information(
+	id serial NOT NULL,
+	Accident_Index varchar(100), 
+	First_Road_Class varchar(30), 
+	Accident_Severity varchar(50), 
+	Date date, 
+	Urban_or_Rural_Area varchar(20), 
+	Weather_Conditions varchar(80), 
+	Year int, 
+	InScotland varchar(10)
+	);
+	
+COPY Accident_Information
+FROM '/Users/Dennis/Documents/unipi/DB_2018-2019_ergasia/db2_Accident_Information.csv' DELIMITER ',' CSV HEADER;
+
+CREATE TABLE Vehicle_Information(
+	id serial NOT NULL,
+	Accident_Index varchar(100),
+	Age_Band_of_Driver varchar(50),
+	Age_of_Vehicle decimal,
+	make varchar(50),
+	model varchar(50),
+	Sex_of_Driver varchar(50),
+	Vehicle_Type varchar(50)
+	);
+	
+COPY Vehicle_Information
+FROM '/Users/Dennis/Documents/unipi/DB_2018-2019_ergasia/db2_Vehicle_Information.csv' DELIMITER ',' CSV HEADER;
+	
