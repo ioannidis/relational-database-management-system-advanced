@@ -10,8 +10,14 @@ CREATE TABLE Accident_Information(
 	InScotland varchar(10)
 	);
 	
+CREATE TRIGGER insert_accidents_trigger
+    BEFORE INSERT ON measurement
+    FOR EACH ROW EXECUTE PROCEDURE accidents_insert_trigger();
+	
 COPY Accident_Information
 FROM '/Users/Dennis/Documents/unipi/DB_2018-2019_ergasia/db2_Accident_Information.csv' DELIMITER ',' CSV HEADER;
+
+
 
 CREATE TABLE Vehicle_Information(
 	id serial NOT NULL,
@@ -23,6 +29,11 @@ CREATE TABLE Vehicle_Information(
 	Sex_of_Driver varchar(50),
 	Vehicle_Type varchar(50)
 	);
+	
+	
+CREATE TRIGGER insert_vehicles_trigger
+    BEFORE INSERT ON measurement
+    FOR EACH ROW EXECUTE PROCEDURE vehicles_insert_trigger();
 	
 COPY Vehicle_Information
 FROM '/Users/Dennis/Documents/unipi/DB_2018-2019_ergasia/db2_Vehicle_Information.csv' DELIMITER ',' CSV HEADER;
