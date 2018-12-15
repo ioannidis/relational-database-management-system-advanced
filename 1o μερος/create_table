@@ -11,11 +11,11 @@ CREATE TABLE Accident_Information(
 	);
 	
 CREATE TRIGGER insert_accidents_trigger
-    BEFORE INSERT ON measurement
+    BEFORE INSERT ON accident_information
     FOR EACH ROW EXECUTE PROCEDURE accidents_insert_trigger();
 	
 COPY Accident_Information
-FROM '/Users/Dennis/Documents/unipi/DB_2018-2019_ergasia/db2_Accident_Information.csv' DELIMITER ',' CSV HEADER;
+FROM '/path/to/db2_Accident_Information.csv' DELIMITER ',' CSV HEADER;
 
 
 
@@ -32,9 +32,8 @@ CREATE TABLE Vehicle_Information(
 	
 	
 CREATE TRIGGER insert_vehicles_trigger
-    BEFORE INSERT ON measurement
+    BEFORE INSERT ON vehicle_information
     FOR EACH ROW EXECUTE PROCEDURE vehicles_insert_trigger();
 	
 COPY Vehicle_Information
-FROM '/Users/Dennis/Documents/unipi/DB_2018-2019_ergasia/db2_Vehicle_Information.csv' DELIMITER ',' CSV HEADER;
-	
+FROM '/path/to/db2_Vehicle_Information.csv' DELIMITER ',' CSV HEADER;
