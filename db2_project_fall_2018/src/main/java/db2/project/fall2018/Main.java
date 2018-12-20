@@ -5,6 +5,8 @@ import java.util.*;
 
 import db2.project.fall2018.model.AccidentInfo;
 import db2.project.fall2018.model.VehicleInfo;
+import db2.project.fall2018.statistic.AccidentStatistics;
+import db2.project.fall2018.statistic.VehicleStatistics;
 import db2.project.fall2018.structure.AccidentInfoRDD;
 import db2.project.fall2018.structure.VehicleInfoRDD;
 import org.apache.spark.SparkConf;
@@ -23,84 +25,49 @@ public class Main {
         conf.setAppName("Main").setMaster("local[*]");
         JavaSparkContext jsc = new JavaSparkContext(conf);
 
-        // TODO: paths must change to relative
-        //JavaRDD<String> accidentCSV = jsc.textFile("/home/panos/Downloads/SELECT___from_db2_public_accident_inform.csv",4);
-        //JavaRDD<String> vehicleCSV = jsc.textFile("/home/panos/Downloads/db2_data/db2_Vehicle_Information.csv", 4);
-
-
+        /*
+        * Accident info config
+        * */
         AccidentInfoRDD.setConfig( jsc );
+        // Generate an instance of accident info data
         AccidentInfoRDD accidentInfoRDDInstance = AccidentInfoRDD.getInstance();
-        JavaRDD<AccidentInfo>  accidentInfoRDD = accidentInfoRDDInstance.getAccidentInfoJavaRDD();
+        // Get JavaRDD structure populated with accident info
+        JavaRDD<AccidentInfo> accidentInfoRDD   = accidentInfoRDDInstance.getAccidentInfoJavaRDD();
+        // Accident statistics obj
+        AccidentStatistics accidentStatistics = new AccidentStatistics( accidentInfoRDD );
 
-        // Create accidents RDD structure using the data of the csv file
-//        JavaRDD<AccidentInfo> accidentInfoRDD = accidentCSV.map(x -> {
-//
-//            String[] accidentData = x.split(",");
-//
-//            return new AccidentInfo(
-//                    Integer.parseInt( accidentData[0] ),
-//                    accidentData[1],
-//                    accidentData[2],
-//                    accidentData[3],
-//                    accidentData[4],
-//                    accidentData[5],
-//                    accidentData[6],
-//                    accidentData[7],
-//                    accidentData[8]
-//            );
-//
-//        });
+        /*
+        * Vehicle info config
+        * */
+        VehicleInfoRDD.setConfig( jsc );
+        // Generate an instance of vehicle info data
+        VehicleInfoRDD vehicleInfoRDDInstance   = VehicleInfoRDD.getInstance();
+        // Get JavaRDD structure populated with vehicle info
+        JavaRDD<VehicleInfo> vehicleInfoRDD     = vehicleInfoRDDInstance.getVehicleInfoJavaRDD();
+        // Vehicle statistics obj
+        VehicleStatistics vehicleStatistics = new VehicleStatistics( vehicleInfoRDD );
 
+        /*
+        * Accident statistics
+        * */
         // Total number of accidents
-        long totalNumOfAccidents = accidentInfoRDD.count();
+        accidentStatistics.totalNumOfAccidents();
 
         // Percentage of accidents in Scotland
-        float accidentsInScotland = accidentInfoRDD
-                .filter( x -> x.getInScotland().equalsIgnoreCase( "Yes" ) )
-                .count();
-        System.out.println( "The is percentage of the accidents in Scotland is: " + accidentsInScotland / totalNumOfAccidents * 100 + "%" );
+        accidentStatistics.accidentsInScotland();
 
-        float accidents2015 = accidentInfoRDD
-                .filter( x -> x.getYear().equals("2015"))
-                .count();
-        System.out.println( "The is percentage of the accidents in 2015 was: " + accidents2015 / totalNumOfAccidents * 100 + "%" );
+        // Number of accidents in 2015
+        accidentStatistics.accidentsIn( "2015" );
 
         // Print the number of the accidents per year
-        Map<String, Iterable<AccidentInfo>> accidentsPerYearSorted = new TreeMap<>( Comparator.naturalOrder() );
-
-        accidentsPerYearSorted.putAll( accidentInfoRDD
-                .groupBy( x -> x.getYear() )
-                .collectAsMap()
-        );
-
-        System.out.println( "The number of the accidents per year are: " );
-        accidentsPerYearSorted.forEach( (x, y) -> System.out.println( x + ": " + ( ( Collection<?>)y ).size() ) );
+        accidentStatistics.accidentPerYearSorted();
 
 
-        // Create vehicle RDD structure using the data of the csv file
-//        JavaRDD<VehicleInfo> vehicleInfoRDD = vehicleCSV.map(x -> {
-//
-//            String[] vehicleData = x.split(",");
-//
-//            return new VehicleInfo(
-//                    Integer.parseInt( vehicleData[0] ),
-//                    vehicleData[1],
-//                    vehicleData[2],
-//                    Float.parseFloat( vehicleData[3].isEmpty() ? "1.0" : vehicleData[3] ),
-//                    vehicleData[4],
-//                    vehicleData[5],
-//                    vehicleData[6],
-//                    vehicleData[7]
-//            );
-//
-//        });
 
-        //System.out.println(vehicleInfoRDD.count());
 
-        VehicleInfoRDD.setConfig( jsc );
-        VehicleInfoRDD vehicleInfoRDDInstance   = VehicleInfoRDD.getInstance();
-        JavaRDD<VehicleInfo> vehicleInfoRDD     = vehicleInfoRDDInstance.getVehicleInfoJavaRDD();
-
+        /*
+        * Vehicle statistics
+        * */
         System.out.println(vehicleInfoRDD.count());
 
 
