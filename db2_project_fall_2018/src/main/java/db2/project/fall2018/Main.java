@@ -51,24 +51,31 @@ public class Main {
         * Accident statistics
         * */
         // Total number of accidents
-        accidentStatistics.totalNumOfAccidents();
+        //accidentStatistics.totalNumOfAccidents();
 
         // Percentage of accidents in Scotland
-        accidentStatistics.accidentsInScotland();
+        //accidentStatistics.accidentsInScotland();
 
         // Number of accidents in 2015
-        accidentStatistics.accidentsIn( "2015" );
+        //accidentStatistics.accidentsIn( "2015" );
 
         // Print the number of the accidents per year
-        accidentStatistics.accidentPerYearSorted();
+        //accidentStatistics.accidentPerYearSorted();
 
-
-
+        // Exercise 2.b
+        // Print the number of the accidents per road class
+        //accidentStatistics.accidentsPerRoadClass();
 
         /*
         * Vehicle statistics
         * */
-        System.out.println(vehicleInfoRDD.count());
+        //System.out.println(vehicleInfoRDD.count());
+
+        // Print the number of the makes
+        vehicleStatistics.numberOfMakes();
+
+        // Prints the percentage of male and female drivers
+        vehicleStatistics.sexOfTheDriver();
 
 
     }

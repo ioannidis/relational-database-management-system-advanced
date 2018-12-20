@@ -1,6 +1,7 @@
 package db2.project.fall2018.statistic;
 
 import db2.project.fall2018.model.AccidentInfo;
+import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 
 import java.util.Collection;
@@ -18,6 +19,19 @@ public class AccidentStatistics {
     public AccidentStatistics( JavaRDD<AccidentInfo> accidentInfoRDD  ) {
         this.accidentInfoRDD = accidentInfoRDD;
         totalNumOfAccidents = this.accidentInfoRDD.count();
+    }
+
+    // 2.b Implementing exercise 1.a.i
+    public void accidentsPerRoadClass() {
+        Map<String, Iterable<AccidentInfo>> accidentsPerRoadClass = new TreeMap<>( Comparator.naturalOrder() );
+
+        accidentsPerRoadClass.putAll( accidentInfoRDD
+                .groupBy( x -> x.getFirstRoadClass() )
+                .collectAsMap()
+        );
+
+        System.out.println( "The number of the accidents per road class are: " );
+        accidentsPerRoadClass.forEach( (x, y) -> System.out.println( x + ": " + ( (Collection<?>)y ).size() ) );
     }
 
     // Print the total number of accidents
