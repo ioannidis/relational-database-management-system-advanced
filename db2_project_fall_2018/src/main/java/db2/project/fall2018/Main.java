@@ -5,8 +5,9 @@ import java.util.*;
 
 import db2.project.fall2018.model.AccidentInfo;
 import db2.project.fall2018.model.VehicleInfo;
+import db2.project.fall2018.structure.AccidentInfoRDD;
+import db2.project.fall2018.structure.VehicleInfoRDD;
 import org.apache.spark.SparkConf;
-import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
@@ -23,27 +24,32 @@ public class Main {
         JavaSparkContext jsc = new JavaSparkContext(conf);
 
         // TODO: paths must change to relative
-        JavaRDD<String> accidentCSV = jsc.textFile("/home/panos/Downloads/SELECT___from_db2_public_accident_inform.csv",4);
-        JavaRDD<String> vehicleCSV = jsc.textFile("/home/panos/Downloads/db2_data/db2_Vehicle_Information.csv", 4);
+        //JavaRDD<String> accidentCSV = jsc.textFile("/home/panos/Downloads/SELECT___from_db2_public_accident_inform.csv",4);
+        //JavaRDD<String> vehicleCSV = jsc.textFile("/home/panos/Downloads/db2_data/db2_Vehicle_Information.csv", 4);
+
+
+        AccidentInfoRDD.setConfig( jsc );
+        AccidentInfoRDD accidentInfoRDDInstance = AccidentInfoRDD.getInstance();
+        JavaRDD<AccidentInfo>  accidentInfoRDD = accidentInfoRDDInstance.getAccidentInfoJavaRDD();
 
         // Create accidents RDD structure using the data of the csv file
-        JavaRDD<AccidentInfo> accidentInfoRDD = accidentCSV.map(x -> {
-
-            String[] accidentData = x.split(",");
-
-            return new AccidentInfo(
-                    Integer.parseInt( accidentData[0] ),
-                    accidentData[1],
-                    accidentData[2],
-                    accidentData[3],
-                    accidentData[4],
-                    accidentData[5],
-                    accidentData[6],
-                    accidentData[7],
-                    accidentData[8]
-            );
-
-        });
+//        JavaRDD<AccidentInfo> accidentInfoRDD = accidentCSV.map(x -> {
+//
+//            String[] accidentData = x.split(",");
+//
+//            return new AccidentInfo(
+//                    Integer.parseInt( accidentData[0] ),
+//                    accidentData[1],
+//                    accidentData[2],
+//                    accidentData[3],
+//                    accidentData[4],
+//                    accidentData[5],
+//                    accidentData[6],
+//                    accidentData[7],
+//                    accidentData[8]
+//            );
+//
+//        });
 
         // Total number of accidents
         long totalNumOfAccidents = accidentInfoRDD.count();
@@ -72,22 +78,28 @@ public class Main {
 
 
         // Create vehicle RDD structure using the data of the csv file
-        JavaRDD<VehicleInfo> vehicleInfoRDD = vehicleCSV.map(x -> {
+//        JavaRDD<VehicleInfo> vehicleInfoRDD = vehicleCSV.map(x -> {
+//
+//            String[] vehicleData = x.split(",");
+//
+//            return new VehicleInfo(
+//                    Integer.parseInt( vehicleData[0] ),
+//                    vehicleData[1],
+//                    vehicleData[2],
+//                    Float.parseFloat( vehicleData[3].isEmpty() ? "1.0" : vehicleData[3] ),
+//                    vehicleData[4],
+//                    vehicleData[5],
+//                    vehicleData[6],
+//                    vehicleData[7]
+//            );
+//
+//        });
 
-            String[] vehicleData = x.split(",");
+        //System.out.println(vehicleInfoRDD.count());
 
-            return new VehicleInfo(
-                    Integer.parseInt( vehicleData[0] ),
-                    vehicleData[1],
-                    vehicleData[2],
-                    Float.parseFloat( vehicleData[3].isEmpty() ? "1.0" : vehicleData[3] ),
-                    vehicleData[4],
-                    vehicleData[5],
-                    vehicleData[6],
-                    vehicleData[7]
-            );
-
-        });
+        VehicleInfoRDD.setConfig( jsc );
+        VehicleInfoRDD vehicleInfoRDDInstance   = VehicleInfoRDD.getInstance();
+        JavaRDD<VehicleInfo> vehicleInfoRDD     = vehicleInfoRDDInstance.getVehicleInfoJavaRDD();
 
         System.out.println(vehicleInfoRDD.count());
 
