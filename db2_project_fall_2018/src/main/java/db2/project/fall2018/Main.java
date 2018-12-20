@@ -1,10 +1,12 @@
 package db2.project.fall2018;
 
 import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 import db2.project.fall2018.model.AccidentInfo;
 import db2.project.fall2018.model.VehicleInfo;
 import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
@@ -22,7 +24,7 @@ public class Main {
 
         // TODO: paths must change to relative
         JavaRDD<String> accidentCSV = jsc.textFile("/home/panos/Downloads/SELECT___from_db2_public_accident_inform.csv",4);
-        JavaRDD<String> vehicleCSV = jsc.textFile("/home/panos/Downloads/db2_data/db2_Vehicle_Information.csv");
+        JavaRDD<String> vehicleCSV = jsc.textFile("/home/panos/Downloads/db2_data/db2_Vehicle_Information.csv", 4);
 
         // Create accidents RDD structure using the data of the csv file
         JavaRDD<AccidentInfo> accidentInfoRDD = accidentCSV.map(x -> {
@@ -50,15 +52,26 @@ public class Main {
         float accidentsInScotland = accidentInfoRDD
                 .filter( x -> x.getInScotland().equalsIgnoreCase( "Yes" ) )
                 .count();
-        System.out.println( "The is percentage of the accidents in Scotland is: " + (accidentsInScotland/(float)totalNumOfAccidents) * 100 + "%" );
+        System.out.println( "The is percentage of the accidents in Scotland is: " + accidentsInScotland / totalNumOfAccidents * 100 + "%" );
 
         float accidents2015 = accidentInfoRDD
                 .filter( x -> x.getYear().equals("2015"))
                 .count();
         System.out.println( "The is percentage of the accidents in 2015 was: " + accidents2015 / totalNumOfAccidents * 100 + "%" );
 
+        // Print the number of the accidents per year
+        Map<String, Iterable<AccidentInfo>> accidentsPerYearSorted = new TreeMap<>( Comparator.naturalOrder() );
 
-        // Create accidents RDD structure using the data of the csv file
+        accidentsPerYearSorted.putAll( accidentInfoRDD
+                .groupBy( x -> x.getYear() )
+                .collectAsMap()
+        );
+
+        System.out.println( "The number of the accidents per year are: " );
+        accidentsPerYearSorted.forEach( (x, y) -> System.out.println( x + ": " + ( ( Collection<?>)y ).size() ) );
+
+
+        // Create vehicle RDD structure using the data of the csv file
         JavaRDD<VehicleInfo> vehicleInfoRDD = vehicleCSV.map(x -> {
 
             String[] vehicleData = x.split(",");

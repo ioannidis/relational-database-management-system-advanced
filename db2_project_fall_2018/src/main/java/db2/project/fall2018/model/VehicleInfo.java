@@ -1,6 +1,8 @@
 package db2.project.fall2018.model;
 
-public class VehicleInfo {
+import java.io.Serializable;
+
+public class VehicleInfo implements Serializable {
 
     private int id;
 
