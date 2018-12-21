@@ -1,22 +1,30 @@
+--------------------------------------------------------------------------------
+
 -- Απενεργοποιούμε αυτό το setting της postgres για να μην χρησιμοποιεί
 -- τον δικό της αλγόριθμο sequence scan στα queries που τρέχουμε.
 
-
 SET enable_seqscan = off;
 
+--------------------------------------------------------------------------------
 
--- Ορίζουμε ένα multicolumn index εφόσον κάνουμε GROUP BY με δυο πεδία.
--- Όπως και στο πρώτο index, μας συμφέρει να χρησιμοποιούμε το btree.
+-- Δημιουργούμε ένα multicolumn b-tree πάνω σε δύο πεδία του accidents
+-- έτσι ώστε να επιταχύνουμε το group by του ερωτήματος.
 
+DROP INDEX IF EXISTS query_2;
 
 CREATE INDEX
     query_2
 ON
     accident_information
 USING
-    BTREE(first_road_class ASC NULLS LAST, accident_severity ASC NULLS LAST);
+    BTREE(  first_road_class    ASC NULLS LAST,
+            accident_severity   ASC NULLS LAST  );
 
+--------------------------------------------------------------------------------
 
--- Σχετικές σελίδες:
--- https://www.postgresql.org/docs/current/indexes-ordering.html
--- https://www.postgresql.org/docs/current/indexes-multicolumn.html
+-- https://www.postgresql.org/docs/11/indexes.html
+-- https://www.postgresql.org/docs/11/sql-createindex.html
+-- https://www.postgresql.org/docs/11/sql-dropindex.html
+-- https://www.postgresql.org/docs/11/sql-alterindex.html
+
+--------------------------------------------------------------------------------
