@@ -1,39 +1,58 @@
-CREATE TABLE Accident_Information(
-	id serial NOT NULL,
-	Accident_Index varchar(100), 
-	First_Road_Class varchar(30), 
-	Accident_Severity varchar(50), 
-	Date date, 
-	Urban_or_Rural_Area varchar(20), 
-	Weather_Conditions varchar(80), 
-	Year int, 
-	InScotland varchar(10)
-	);
-	
+--------------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS accident_information;
+
+CREATE TABLE accident_information(
+    id                  serial NOT NULL,
+    accident_index      varchar(100), 
+    first_road_class    varchar(30), 
+    accident_severity   varchar(50), 
+    date                date, 
+    urban_or_rural_area varchar(20), 
+    weather_conditions  varchar(80), 
+    year                int, 
+    inscotland          varchar(10)
+);
+
+--------------------------------------------------------------------------------    
+
 CREATE TRIGGER insert_accidents_trigger
     BEFORE INSERT ON accident_information
     FOR EACH ROW EXECUTE PROCEDURE accidents_insert_trigger();
-	
-COPY Accident_Information
-FROM '/path/to/db2_Accident_Information.csv' DELIMITER ',' CSV HEADER;
 
+--------------------------------------------------------------------------------
 
+COPY
+    accident_information
+FROM
+    '/path/to/db2_Accident_Information.csv' DELIMITER ',' CSV HEADER;
 
-CREATE TABLE Vehicle_Information(
-	id serial NOT NULL,
-	Accident_Index varchar(100),
-	Age_Band_of_Driver varchar(50),
-	Age_of_Vehicle decimal,
-	make varchar(50),
-	model varchar(50),
-	Sex_of_Driver varchar(50),
-	Vehicle_Type varchar(50)
-	);
-	
-	
+--------------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS vehicle_information;
+
+CREATE TABLE vehicle_information(
+    id                  serial NOT NULL,
+    accident_index      varchar(100),
+    age_band_of_driver  varchar(50),
+    age_of_vehicle      decimal,
+    make                varchar(50),
+    model               varchar(50),
+    sex_of_driver       varchar(50),
+    vehicle_type        varchar(50)
+);
+
+--------------------------------------------------------------------------------    
+    
 CREATE TRIGGER insert_vehicles_trigger
     BEFORE INSERT ON vehicle_information
     FOR EACH ROW EXECUTE PROCEDURE vehicles_insert_trigger();
-	
-COPY Vehicle_Information
-FROM '/path/to/db2_Vehicle_Information.csv' DELIMITER ',' CSV HEADER;
+
+--------------------------------------------------------------------------------
+
+COPY
+    vehicle_information
+FROM
+    '/path/to/db2_Vehicle_Information.csv' DELIMITER ',' CSV HEADER;
+
+--------------------------------------------------------------------------------
