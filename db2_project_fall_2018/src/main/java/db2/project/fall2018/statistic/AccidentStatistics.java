@@ -30,8 +30,16 @@ public class AccidentStatistics {
                 .collectAsMap()
         );
 
-        System.out.println( "The number of the accidents per road class are: " );
+        System.out.println( "2.b - The number of the accidents per road class are: " );
         accidentsPerRoadClass.forEach( (x, y) -> System.out.println( x + ": " + ( (Collection<?>)y ).size() ) );
+    }
+
+    // 2.c
+    public void accidentsPerRoadUsingPartitions( JavaPairRDD<Integer, Iterable<AccidentInfo>> javaPairRDD ) {
+        System.out.println( "2.c - The number of the accidents per road class are): " );
+        javaPairRDD
+                .groupBy( x -> { return x._2.iterator().next().getFirstRoadClass(); } )
+                .foreach( x-> System.out.println( x._1 + ": " + ( (Collection<?>)x._2 ).size() ) );
     }
 
     // Print the total number of accidents

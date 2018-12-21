@@ -40,13 +40,6 @@ public class Main {
         // Accident statistics obj
         AccidentStatistics accidentStatistics = new AccidentStatistics( accidentInfoRDD );
 
-        // TODO: REMOVE TESTING
-        JavaPairRDD<Integer, Iterable<AccidentInfo>> userPairRDD = accidentInfoRDDInstance.getJavaPairRDD();
-        System.out.println( userPairRDD.getNumPartitions() );
-
-        // TODO: REMOVE TESTING
-        userPairRDD = accidentInfoRDDInstance.getJavaPairRDDPartitionedBy( 20 );
-        System.out.println( userPairRDD.getNumPartitions() );
 
         /*
         * Vehicle info config
@@ -78,6 +71,10 @@ public class Main {
         // Print the number of the accidents per road class
         //accidentStatistics.accidentsPerRoadClass();
 
+        // Exercise 2.c
+        JavaPairRDD<Integer, Iterable<AccidentInfo>> accidentJavaPairRDD = accidentInfoRDDInstance.getJavaPairRDDPartitionedBy( 20 );
+        accidentStatistics.accidentsPerRoadUsingPartitions( accidentJavaPairRDD );
+
         /*
         * Vehicle statistics
         * */
@@ -91,4 +88,5 @@ public class Main {
 
 
     }
+
 }
