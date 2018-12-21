@@ -21,7 +21,7 @@ LANGUAGE plpgsql;
 
 --------------------------------------------------------------------------------
 
-DROP TRIGGER IF EXISTS insert_vehicles_trigger;
+DROP TRIGGER IF EXISTS insert_vehicles_trigger on vehicle_information;
 
 CREATE TRIGGER insert_vehicles_trigger
     BEFORE INSERT ON vehicle_information
