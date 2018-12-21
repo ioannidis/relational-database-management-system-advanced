@@ -16,12 +16,6 @@ CREATE TABLE accident_information(
 
 --------------------------------------------------------------------------------    
 
-CREATE TRIGGER insert_accidents_trigger
-    BEFORE INSERT ON accident_information
-    FOR EACH ROW EXECUTE PROCEDURE accidents_insert_trigger();
-
---------------------------------------------------------------------------------
-
 COPY
     accident_information
 FROM
@@ -41,12 +35,6 @@ CREATE TABLE vehicle_information(
     sex_of_driver       varchar(50),
     vehicle_type        varchar(50)
 );
-
---------------------------------------------------------------------------------    
-    
-CREATE TRIGGER insert_vehicles_trigger
-    BEFORE INSERT ON vehicle_information
-    FOR EACH ROW EXECUTE PROCEDURE vehicles_insert_trigger();
 
 --------------------------------------------------------------------------------
 

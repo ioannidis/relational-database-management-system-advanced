@@ -1,4 +1,6 @@
-CREATE OR REPLACE FUNCTION accidents_insert_trigger()
+--------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION accidents_partitioner()
 RETURNS TRIGGER AS $$
 BEGIN
     IF ( CAST(NEW.year AS INT) >= 2005 AND CAST(NEW.year AS INT)<= 2007 ) THEN
@@ -16,3 +18,13 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
+
+--------------------------------------------------------------------------------
+
+DROP TRIGGER IF EXISTS insert_accidents_trigger;
+
+CREATE TRIGGER insert_accidents_trigger
+    BEFORE INSERT ON accident_information
+    FOR EACH ROW EXECUTE PROCEDURE accidents_partitioner();
+
+--------------------------------------------------------------------------------
