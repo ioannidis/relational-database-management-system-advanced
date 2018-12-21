@@ -23,4 +23,4 @@ WHERE
 AND
     accidents.date < '2010-1-1'
 GROUP BY
-    vehicles.age_band_of_driver, accidents.urban_or_rural_area 
+    vehicles.age_band_of_driver, accidents.urban_or_rural_area;
