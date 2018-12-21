@@ -1,6 +1,5 @@
 package db2.project.fall2018.statistic;
 
-import db2.project.fall2018.model.AccidentInfo;
 import db2.project.fall2018.model.VehicleInfo;
 import org.apache.spark.api.java.JavaRDD;
 

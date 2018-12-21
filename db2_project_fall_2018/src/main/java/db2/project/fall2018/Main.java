@@ -9,7 +9,10 @@ import db2.project.fall2018.statistic.AccidentStatistics;
 import db2.project.fall2018.statistic.VehicleStatistics;
 import db2.project.fall2018.structure.AccidentInfoRDD;
 import db2.project.fall2018.structure.VehicleInfoRDD;
+import org.apache.spark.HashPartitioner;
+import org.apache.spark.Partitioner;
 import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
@@ -17,13 +20,14 @@ public class Main {
 
     public static void main( String args[] ) {
 
-        final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        final DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("u");
+//        final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        final DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("u");
 
 
         SparkConf conf = new SparkConf();
         conf.setAppName("Main").setMaster("local[*]");
         JavaSparkContext jsc = new JavaSparkContext(conf);
+
 
         /*
         * Accident info config
@@ -32,20 +36,28 @@ public class Main {
         // Generate an instance of accident info data
         AccidentInfoRDD accidentInfoRDDInstance = AccidentInfoRDD.getInstance();
         // Get JavaRDD structure populated with accident info
-        JavaRDD<AccidentInfo> accidentInfoRDD   = accidentInfoRDDInstance.getAccidentInfoJavaRDD();
+        JavaRDD<AccidentInfo> accidentInfoRDD   = accidentInfoRDDInstance.getJavaRDD();
         // Accident statistics obj
         AccidentStatistics accidentStatistics = new AccidentStatistics( accidentInfoRDD );
+
+        // TODO: REMOVE TESTING
+        JavaPairRDD<Integer, Iterable<AccidentInfo>> userPairRDD = accidentInfoRDDInstance.getJavaPairRDD();
+        System.out.println( userPairRDD.getNumPartitions() );
+
+        // TODO: REMOVE TESTING
+        userPairRDD = accidentInfoRDDInstance.getJavaPairRDDPartitionedBy( 20 );
+        System.out.println( userPairRDD.getNumPartitions() );
 
         /*
         * Vehicle info config
         * */
-        VehicleInfoRDD.setConfig( jsc );
+//        VehicleInfoRDD.setConfig( jsc );
         // Generate an instance of vehicle info data
-        VehicleInfoRDD vehicleInfoRDDInstance   = VehicleInfoRDD.getInstance();
+//        VehicleInfoRDD vehicleInfoRDDInstance   = VehicleInfoRDD.getInstance();
         // Get JavaRDD structure populated with vehicle info
-        JavaRDD<VehicleInfo> vehicleInfoRDD     = vehicleInfoRDDInstance.getVehicleInfoJavaRDD();
+//        JavaRDD<VehicleInfo> vehicleInfoRDD     = vehicleInfoRDDInstance.getVehicleInfoJavaRDD();
         // Vehicle statistics obj
-        VehicleStatistics vehicleStatistics = new VehicleStatistics( vehicleInfoRDD );
+//        VehicleStatistics vehicleStatistics = new VehicleStatistics( vehicleInfoRDD );
 
         /*
         * Accident statistics
@@ -72,10 +84,10 @@ public class Main {
         //System.out.println(vehicleInfoRDD.count());
 
         // Print the number of the makes
-        vehicleStatistics.numberOfMakes();
+        //vehicleStatistics.numberOfMakes();
 
         // Prints the percentage of male and female drivers
-        vehicleStatistics.sexOfTheDriver();
+        //vehicleStatistics.sexOfTheDriver();
 
 
     }
