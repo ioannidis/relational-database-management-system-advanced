@@ -18,12 +18,12 @@ public class VehicleInfo implements Serializable {
 
     private String sexOfDriver;
 
-    private String vehicleTye;
+    private String vehicleType;
 
     public VehicleInfo() {
     }
 
-    public VehicleInfo(int id, String accidentIndex, String ageBandOfDriver, float ageOfVehicle, String make, String model, String sexOfDriver, String vehicleTye) {
+    public VehicleInfo(int id, String accidentIndex, String ageBandOfDriver, float ageOfVehicle, String make, String model, String sexOfDriver, String vehicleType) {
         this.id = id;
         this.accidentIndex = accidentIndex;
         this.ageBandOfDriver = ageBandOfDriver;
@@ -31,7 +31,7 @@ public class VehicleInfo implements Serializable {
         this.make = make;
         this.model = model;
         this.sexOfDriver = sexOfDriver;
-        this.vehicleTye = vehicleTye;
+        this.vehicleType = vehicleType;
     }
 
     public int getId() {
@@ -90,12 +90,12 @@ public class VehicleInfo implements Serializable {
         this.sexOfDriver = sexOfDriver;
     }
 
-    public String getVehicleTye() {
-        return vehicleTye;
+    public String getVehicleType() {
+        return vehicleType;
     }
 
-    public void setVehicleTye(String vehicleTye) {
-        this.vehicleTye = vehicleTye;
+    public void setVehicleType(String vehicleType) {
+        this.vehicleType = vehicleType;
     }
 
     @Override
@@ -108,7 +108,7 @@ public class VehicleInfo implements Serializable {
                 ", make='" + make + '\'' +
                 ", model='" + model + '\'' +
                 ", sexOfDriver='" + sexOfDriver + '\'' +
-                ", vehicleTye='" + vehicleTye + '\'' +
+                ", vehicleType='" + vehicleType + '\'' +
                 '}';
     }
 

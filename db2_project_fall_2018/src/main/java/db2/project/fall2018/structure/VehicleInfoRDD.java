@@ -1,6 +1,8 @@
 package db2.project.fall2018.structure;
 
 import db2.project.fall2018.model.VehicleInfo;
+import org.apache.spark.HashPartitioner;
+import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
@@ -10,16 +12,18 @@ public class VehicleInfoRDD {
 
     private static VehicleInfoRDD instance = null;
 
-    private JavaRDD<VehicleInfo> vehicleInfoJavaRDD;
+    private JavaRDD<String> vehicleCSV;
+
+    private JavaRDD<VehicleInfo> javaRDD = null;
+
+    private JavaPairRDD<Integer, Iterable<VehicleInfo>> javaPairRDD = null;
 
 
     private VehicleInfoRDD() {
-        JavaRDD<String> vehicleCSV = config.textFile("/home/panos/Downloads/db2_data/db2_Vehicle_Information.csv", 4);
-
-        generateVehicleInfoJavaRDD(vehicleCSV);
+        vehicleCSV = config.textFile("/home/panos/Downloads/db2_data/db2_Vehicle_Information.csv", 4);
     }
 
-    public static void setConfig(JavaSparkContext jsc) {
+    public static void setConfig( JavaSparkContext jsc ) {
         config = jsc;
     }
 
@@ -30,27 +34,49 @@ public class VehicleInfoRDD {
         return instance;
     }
 
+    // Returns java rdd structure
+    public JavaRDD<VehicleInfo> getJavaRDD() {
+        if ( javaRDD == null ) {
+            javaRDD = vehicleCSV.map(x -> {
 
-    public JavaRDD<VehicleInfo> getVehicleInfoJavaRDD() {
-        return vehicleInfoJavaRDD;
+                String[] vehicleData = x.split(",");
+
+                return new VehicleInfo(
+                        Integer.parseInt( vehicleData[0] ),
+                        vehicleData[1],
+                        vehicleData[2],
+                        Float.parseFloat( vehicleData[3].isEmpty() ? "1.0" : vehicleData[3] ),
+                        vehicleData[4],
+                        vehicleData[5],
+                        vehicleData[6],
+                        vehicleData[7]
+                );
+
+            });
+        }
+
+        return javaRDD;
     }
 
-    private void generateVehicleInfoJavaRDD(JavaRDD<String> vehicleCSV) {
-        vehicleInfoJavaRDD = vehicleCSV.map(x -> {
+    // Returns java pair rdd structure
+    public JavaPairRDD<Integer, Iterable<VehicleInfo>> getJavaPairRDD() {
+        if ( javaPairRDD == null )
+            javaPairRDD = javaRDD.groupBy( x -> x.getId() );
 
-            String[] vehicleData = x.split(",");
-
-            return new VehicleInfo(
-                    Integer.parseInt( vehicleData[0] ),
-                    vehicleData[1],
-                    vehicleData[2],
-                    Float.parseFloat( vehicleData[3].isEmpty() ? "1.0" : vehicleData[3] ),
-                    vehicleData[4],
-                    vehicleData[5],
-                    vehicleData[6],
-                    vehicleData[7]
-            );
-
-        });
+        return javaPairRDD;
     }
+
+    // Returns partitioned java pair rdd structure
+    public JavaPairRDD<Integer, Iterable<VehicleInfo>> getJavaPairRDDPartitionedBy( int num ) {
+        if ( javaPairRDD == null )
+            getJavaPairRDD();
+
+        return javaPairRDD.partitionBy( new HashPartitioner( num ) );
+    }
+
+
+
+
+
+
 }

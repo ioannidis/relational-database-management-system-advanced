@@ -20,14 +20,9 @@ public class Main {
 
     public static void main( String args[] ) {
 
-//        final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//        final DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("u");
-
-
         SparkConf conf = new SparkConf();
-        conf.setAppName("Main").setMaster("local[*]");
+        conf.setMaster("local[*]").setAppName("Main");
         JavaSparkContext jsc = new JavaSparkContext(conf);
-
 
         /*
         * Accident info config
@@ -35,57 +30,61 @@ public class Main {
         AccidentInfoRDD.setConfig( jsc );
         // Generate an instance of accident info data
         AccidentInfoRDD accidentInfoRDDInstance = AccidentInfoRDD.getInstance();
-        // Get JavaRDD structure populated with accident info
-        JavaRDD<AccidentInfo> accidentInfoRDD   = accidentInfoRDDInstance.getJavaRDD();
         // Accident statistics obj
-        AccidentStatistics accidentStatistics = new AccidentStatistics( accidentInfoRDD );
+        AccidentStatistics accidentStatistics = new AccidentStatistics( accidentInfoRDDInstance );
 
 
         /*
         * Vehicle info config
         * */
-//        VehicleInfoRDD.setConfig( jsc );
+        VehicleInfoRDD.setConfig( jsc );
         // Generate an instance of vehicle info data
-//        VehicleInfoRDD vehicleInfoRDDInstance   = VehicleInfoRDD.getInstance();
-        // Get JavaRDD structure populated with vehicle info
-//        JavaRDD<VehicleInfo> vehicleInfoRDD     = vehicleInfoRDDInstance.getVehicleInfoJavaRDD();
+        VehicleInfoRDD vehicleInfoRDDInstance   = VehicleInfoRDD.getInstance();
         // Vehicle statistics obj
-//        VehicleStatistics vehicleStatistics = new VehicleStatistics( vehicleInfoRDD );
+        VehicleStatistics vehicleStatistics = new VehicleStatistics( vehicleInfoRDDInstance );
 
         /*
         * Accident statistics
         * */
         // Total number of accidents
-        //accidentStatistics.totalNumOfAccidents();
+//        accidentStatistics.totalNumOfAccidents();
 
         // Percentage of accidents in Scotland
-        //accidentStatistics.accidentsInScotland();
+//        accidentStatistics.accidentsInScotland();
 
         // Number of accidents in 2015
-        //accidentStatistics.accidentsIn( "2015" );
+//        accidentStatistics.accidentsIn( "2015" );
 
         // Print the number of the accidents per year
-        //accidentStatistics.accidentPerYearSorted();
+//        accidentStatistics.accidentPerYearSorted();
 
         // Exercise 2.b
         // Print the number of the accidents per road class
-        //accidentStatistics.accidentsPerRoadClass();
+//        accidentStatistics.accidentsPerRoadClass();
 
         // Exercise 2.c
-        JavaPairRDD<Integer, Iterable<AccidentInfo>> accidentJavaPairRDD = accidentInfoRDDInstance.getJavaPairRDDPartitionedBy( 20 );
-        accidentStatistics.accidentsPerRoadUsingPartitions( accidentJavaPairRDD );
+//        accidentStatistics.accidentsPerRoadUsingPartitions( 20 );
 
         /*
         * Vehicle statistics
         * */
-        //System.out.println(vehicleInfoRDD.count());
+        // Prints the total numbwer of vehicles
+//        vehicleStatistics.totalNumOfVehicles();
 
-        // Print the number of the makes
-        //vehicleStatistics.numberOfMakes();
+        // Prints the number of the makes
+//        vehicleStatistics.numberOfMakes();
 
         // Prints the percentage of male and female drivers
-        //vehicleStatistics.sexOfTheDriver();
+//        vehicleStatistics.sexOfTheDriver();
 
+        // Prints the age percentage for drivers between 26 - 35
+//        vehicleStatistics.ageBandBetween26And35();
+
+        // Prints accidents percentage caused by tram
+//        vehicleStatistics.vehicleTypePercentage( "Tram" );
+
+        // Prints accidents percentage caused by Motorcycle over 500cc
+//        vehicleStatistics.vehicleTypePercentage( "Motorcycle over 500cc" );
 
     }
 
