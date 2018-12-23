@@ -1,4 +1,4 @@
-
+/*
 // USING LIMIT ===================================================================================
 
 SELECT v.make, v.age_band_of_driver as age, a.first_road_class as road_class, count(v.make) as count
@@ -46,7 +46,7 @@ ORDER BY
 	count DESC,
 	v.make;
 
-
+*/
 SELECT  v.make, v.age_band_of_driver , a.first_road_class, count(v.make) as count
       FROM vehicle_information AS v
       INNER JOIN accident_information AS a ON v.accident_index = a.accident_index
@@ -54,7 +54,7 @@ SELECT  v.make, v.age_band_of_driver , a.first_road_class, count(v.make) as coun
       GROUP BY v.make, v.age_band_of_driver, a.first_road_class
 			HAVING count(v.make) = ( SELECT max(accident_sum_per_make.count) as count FROM accident_sum_per_make);
 
-
+/*
 //====================================================================================================//
 
 SELECT  
@@ -98,4 +98,4 @@ HAVING COUNT(vehicle_information) =
 			ORDER BY ACCIDENTS DESC																		
 			)AS make_count
 		)
-	
+	*/

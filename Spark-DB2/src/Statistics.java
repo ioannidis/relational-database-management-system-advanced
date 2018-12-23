@@ -83,7 +83,7 @@ public class Statistics {
 		System.out.println(car_make.countByKey().size()-1);
 		System.out.println("How many accidents happened per year: ");
 		//NOT YET SORTED BUT RIGHT RESULTS
-		System.out.println(sorted_years);
+	//	System.out.println(sorted_years);
 		jsc.close();
 		}
 }
