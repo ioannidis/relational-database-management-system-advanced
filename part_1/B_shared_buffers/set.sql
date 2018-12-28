@@ -1,0 +1,1 @@
+ALTER SYSTEM SET shared_buffers TO '1024MB';
