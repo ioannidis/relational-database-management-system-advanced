@@ -20,7 +20,11 @@ public class AccidentInfoRDD {
 
 
     private AccidentInfoRDD() {
-        accidentCSV = config.textFile( "/home/panos/Downloads/SELECT___from_db2_public_accident_inform.csv",4 );
+        accidentCSV = config.textFile( "/home/panos/Projects/BD2/db2_project_fall_2018/src/main/java/db2/project/fall2018/csv/db2_Accident_Information.csv",4 );
+    }
+
+    private AccidentInfoRDD( String absolutePathOfCSV ) {
+        accidentCSV = config.textFile(absolutePathOfCSV, 4);
     }
 
     public static void setConfig( JavaSparkContext jsc ) {

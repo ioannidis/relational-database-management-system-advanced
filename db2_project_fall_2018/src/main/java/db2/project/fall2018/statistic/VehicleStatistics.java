@@ -23,7 +23,7 @@ public class VehicleStatistics {
 
     // Print the total number of accidents
     public void totalNumOfVehicles() {
-        System.out.println( totalNumOfVehicles );
+        System.out.println( "The total numbere of vehicles is: " + totalNumOfVehicles );
     }
 
     // Print the number of the makes

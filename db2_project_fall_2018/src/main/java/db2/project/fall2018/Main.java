@@ -84,7 +84,7 @@ public class Main {
 //        vehicleStatistics.vehicleTypePercentage( "Tram" );
 
         // Prints accidents percentage caused by Motorcycle over 500cc
-//        vehicleStatistics.vehicleTypePercentage( "Motorcycle over 500cc" );
+        vehicleStatistics.vehicleTypePercentage( "Motorcycle over 500cc" );
 
     }
 

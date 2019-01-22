@@ -44,7 +44,7 @@ public class AccidentStatistics {
 
     // Print the total number of accidents
     public void totalNumOfAccidents() {
-        System.out.println( totalNumOfAccidents );
+        System.out.println( "The total number of accidents is: " + totalNumOfAccidents );
     }
 
     // Percentage of accidents in Scotland

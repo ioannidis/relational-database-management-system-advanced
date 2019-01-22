@@ -19,8 +19,12 @@ public class VehicleInfoRDD {
     private JavaPairRDD<Integer, Iterable<VehicleInfo>> javaPairRDD = null;
 
 
-    private VehicleInfoRDD() {
-        vehicleCSV = config.textFile("/home/panos/Downloads/db2_data/db2_Vehicle_Information.csv", 4);
+    private VehicleInfoRDD( ) {
+        vehicleCSV = config.textFile("/home/panos/Projects/BD2/db2_project_fall_2018/src/main/java/db2/project/fall2018/csv/db2_Vehicle_Information.csv", 4);
+    }
+
+    private VehicleInfoRDD( String absolutePathOfCSV ) {
+        vehicleCSV = config.textFile( absolutePathOfCSV, 4 );
     }
 
     public static void setConfig( JavaSparkContext jsc ) {
