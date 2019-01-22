@@ -6,4 +6,4 @@ FROM
     accident_information
 GROUP BY
     first_road_class,
-    accident_severity
+    accident_severity;

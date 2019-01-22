@@ -18,4 +18,4 @@ AND
 GROUP BY
     vehicles.age_band_of_driver,
     accidents.urban_or_rural_area,
-    accidents.year
+    accidents.year;

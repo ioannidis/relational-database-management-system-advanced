@@ -4,4 +4,4 @@ SELECT
 FROM
     accident_information
 GROUP BY
-    first_road_class
+    first_road_class;

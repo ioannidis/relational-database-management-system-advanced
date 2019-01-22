@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS accident_sum_per_make;
+
 SELECT
     v.make,
     v.age_band_of_driver,
