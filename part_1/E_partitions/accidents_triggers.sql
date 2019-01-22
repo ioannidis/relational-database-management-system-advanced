@@ -7,12 +7,12 @@ BEGIN
         INSERT INTO accidents_2005to2007 VALUES (NEW.*);
     ELSIF ( CAST(NEW.year AS INT) >= 2008 AND CAST(NEW.year AS INT)<= 2010 ) THEN
         INSERT INTO accidents_2008to2010 VALUES (NEW.*);
-    ELSIF ( CAST(NEW.year AS INT) >= 2011 AND CAST(NEW.year AS INT)<= 2014 ) THEN
-        INSERT INTO accidents_2011to2014 VALUES (NEW.*);
+    ELSIF ( CAST(NEW.year AS INT) >= 2011 AND CAST(NEW.year AS INT)<= 2013 ) THEN
+        INSERT INTO accidents_2011to2013 VALUES (NEW.*);
 	ELSIF ( CAST(NEW.year AS INT) >= 2014 AND CAST(NEW.year AS INT)<= 2016 ) THEN
         INSERT INTO accidents_2014to2016 VALUES (NEW.*);
     ELSE
-        RAISE EXCEPTION 'Date out of range.  Fix the accidents_insert_trigger() function!';
+        RAISE EXCEPTION 'Out of range year value. Fix the accidents_insert_trigger() function!';
     END IF;
     RETURN NULL;
 END;

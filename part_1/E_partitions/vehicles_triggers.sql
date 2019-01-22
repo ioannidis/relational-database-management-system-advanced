@@ -12,7 +12,7 @@ BEGIN
 	ELSIF (NEW.sex_of_driver = 'Not known') THEN
         INSERT INTO vehicles_not_known VALUES (NEW.*);
     ELSE
-        RAISE EXCEPTION 'Date out of range.  Fix the vehicles_insert_trigger() function!';
+        RAISE EXCEPTION 'Unknown sex_of_driver value. Fix the vehicles_insert_trigger() function!';
     END IF;
     RETURN NULL;
 END;
