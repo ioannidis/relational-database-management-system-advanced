@@ -1,3 +1,7 @@
+--------------------------------------------------------------------------------
+
+-- Πρώτα εκτελούμε αυτό το query για να δημιουργηθεί το accident_sum_per_make.
+
 DROP TABLE IF EXISTS accident_sum_per_make;
 
 SELECT
@@ -25,6 +29,10 @@ ORDER BY
     count DESC,
     v.make;
 
+--------------------------------------------------------------------------------
+
+-- Αφού εκτελέσουμε το παραπάνω query μετά τρέχουμε αυτό για τα αποτελέσματα.
+
 SELECT
     v.make,
     v.age_band_of_driver,
@@ -49,3 +57,5 @@ GROUP BY
 HAVING
     count(v.make) = ( SELECT max(accident_sum_per_make.count) as count
                       FROM accident_sum_per_make );
+
+--------------------------------------------------------------------------------
