@@ -1,5 +1,5 @@
 # Relational Database Management System Advanced
-A group project that was developed for a university assignment for the subject of Databases.
+A group project that was developed for a university assignment on the subject of Databases.
 
 **The project requirements are as followed:**
 - Use dataset "[UK Road Safety: Traffic Accidents and Vehicles](https://www.kaggle.com/tsiaras/uk-road-safety-accidents-and-vehicles/home)" from Kaggle.
