@@ -9,4 +9,5 @@ A group project that was developed for a university assignment for the subject o
 - Write a Java program using Spark to execute same SQL queries and calculate statistics.
 
 **Group members involved in this project:**
+
 Ioannidis Panagiotis, Paravantis Athanasios, Nikas Dionisios
